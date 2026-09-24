@@ -3,3 +3,5 @@ on: [push, pull_request]
 jobs:
   ci:
     uses: capybari/capybari-core/.github/workflows/analyzer-ci.yml@main
+    with:
+      siblings: "capybari-fixtures"
