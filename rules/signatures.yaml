@@ -1,0 +1,75 @@
+# Website technology signatures. Regexes are Go RE2. A "version" capture
+# group, when present, yields the version. Community contributions welcome.
+# where: header:<name> | cookie | meta:<name> | script | html | url
+- {name: Nginx, category: server, rules: [{where: "header:server", pattern: '(?i)^nginx(?:/(?P<version>[\d.]+))?'}]}
+- {name: Apache HTTP Server, category: server, rules: [{where: "header:server", pattern: '(?i)^apache(?:/(?P<version>[\d.]+))?'}]}
+- {name: Microsoft IIS, category: server, rules: [{where: "header:server", pattern: '(?i)microsoft-iis(?:/(?P<version>[\d.]+))?'}]}
+- {name: LiteSpeed, category: server, rules: [{where: "header:server", pattern: '(?i)litespeed'}]}
+- {name: Caddy, category: server, rules: [{where: "header:server", pattern: '(?i)^caddy'}]}
+- {name: Cloudflare, category: cdn, rules: [{where: "header:server", pattern: '(?i)^cloudflare'}, {where: "header:cf-ray", pattern: '.'}]}
+- {name: Amazon CloudFront, category: cdn, rules: [{where: "header:x-amz-cf-id", pattern: '.'}, {where: "header:via", pattern: '(?i)cloudfront'}]}
+- {name: Fastly, category: cdn, rules: [{where: "header:x-served-by", pattern: '(?i)cache-'}, {where: "header:x-fastly-request-id", pattern: '.'}]}
+- {name: Akamai, category: cdn, rules: [{where: "header:x-akamai-transformed", pattern: '.'}, {where: "header:server", pattern: '(?i)akamaighost'}]}
+- {name: Vercel, category: hosting, rules: [{where: "header:x-vercel-id", pattern: '.'}, {where: "header:server", pattern: '(?i)^vercel'}]}
+- {name: Netlify, category: hosting, rules: [{where: "header:x-nf-request-id", pattern: '.'}, {where: "header:server", pattern: '(?i)^netlify'}]}
+- {name: GitHub Pages, category: hosting, rules: [{where: "header:x-github-request-id", pattern: '.'}]}
+- {name: Heroku, category: hosting, rules: [{where: "header:via", pattern: '(?i)vegur'}]}
+- {name: PHP, category: language, rules: [{where: "header:x-powered-by", pattern: '(?i)php(?:/(?P<version>[\d.]+))?'}, {where: cookie, pattern: '^PHPSESSID$'}]}
+- {name: ASP.NET, category: web-framework, rules: [{where: "header:x-powered-by", pattern: '(?i)asp\.net'}, {where: "header:x-aspnet-version", pattern: '(?P<version>[\d.]+)'}, {where: cookie, pattern: '^ASP\.NET_SessionId$'}]}
+- {name: Express, category: web-framework, rules: [{where: "header:x-powered-by", pattern: '(?i)^express'}]}
+- {name: Next.js, category: web-framework, rules: [{where: "header:x-powered-by", pattern: '(?i)next\.js ?(?P<version>[\d.]+)?'}, {where: html, pattern: '<script id="__NEXT_DATA__"'}, {where: script, pattern: '/_next/static/'}]}
+- {name: Nuxt, category: web-framework, rules: [{where: html, pattern: '<div id="__nuxt"'}, {where: script, pattern: '/_nuxt/'}]}
+- {name: Gatsby, category: web-framework, rules: [{where: meta:generator, pattern: '(?i)gatsby ?(?P<version>[\d.]+)?'}, {where: html, pattern: 'id="___gatsby"'}]}
+- {name: Astro, category: web-framework, rules: [{where: meta:generator, pattern: '(?i)astro v?(?P<version>[\d.]+)?'}, {where: script, pattern: '/_astro/'}]}
+- {name: SvelteKit, category: web-framework, rules: [{where: html, pattern: 'data-sveltekit-'}, {where: script, pattern: '/_app/immutable/'}]}
+- {name: Remix, category: web-framework, rules: [{where: html, pattern: 'window\.__remixContext'}]}
+- {name: Django, category: web-framework, rules: [{where: cookie, pattern: '^csrftoken$'}, {where: html, pattern: 'name="csrfmiddlewaretoken"'}]}
+- {name: Ruby on Rails, category: web-framework, rules: [{where: html, pattern: 'name="csrf-param" content="authenticity_token"'}, {where: cookie, pattern: '^_[a-z0-9_]+_session$'}]}
+- {name: Laravel, category: web-framework, rules: [{where: cookie, pattern: '^laravel_session$'}, {where: cookie, pattern: '^XSRF-TOKEN$'}]}
+- {name: Java, category: language, rules: [{where: cookie, pattern: '^JSESSIONID$'}]}
+- {name: React, category: ui-framework, rules: [{where: html, pattern: 'data-reactroot'}, {where: script, pattern: '(?i)react(?:\.production)?(?:\.min)?\.js|/react@(?P<version>[\d.]+)'}]}
+- {name: Vue.js, category: ui-framework, rules: [{where: html, pattern: 'data-v-app|data-v-[0-9a-f]{8}'}, {where: script, pattern: '(?i)/vue@(?P<version>[\d.]+)|vue(?:\.runtime)?(?:\.global)?(?:\.prod)?(?:\.min)?\.js'}]}
+- {name: Angular, category: ui-framework, rules: [{where: html, pattern: 'ng-version="(?P<version>[\d.]+)"'}]}
+- {name: AngularJS, category: ui-framework, rules: [{where: html, pattern: '\sng-app[=\s>]'}, {where: script, pattern: '(?i)angular(?:js)?[/@-](?P<version>1\.[\d.]+)|angular(?:\.min)?\.js'}]}
+- {name: jQuery, category: library, npm: jquery, rules: [{where: script, pattern: '(?i)jquery[.-]?(?P<version>\d+\.\d+\.\d+)?(?:\.slim)?(?:\.min)?\.js|/jquery@(?P<version>[\d.]+)|/jquery/(?P<version>[\d.]+)/'}]}
+- {name: Bootstrap, category: ui, npm: bootstrap, rules: [{where: script, pattern: '(?i)bootstrap[/@-](?P<version>\d+\.\d+\.\d+)|bootstrap(?:\.bundle)?(?:\.min)?\.(?:js|css)'}]}
+- {name: Lodash, category: library, npm: lodash, rules: [{where: script, pattern: '(?i)lodash[/@.-](?P<version>\d+\.\d+\.\d+)'}]}
+- {name: Moment.js, category: library, npm: moment, rules: [{where: script, pattern: '(?i)moment[/@.-](?P<version>\d+\.\d+\.\d+)|moment(?:\.min)?\.js'}]}
+- {name: Font Awesome, category: ui, rules: [{where: script, pattern: '(?i)font-?awesome[/@-]?(?P<version>\d+\.\d+\.\d+)?'}]}
+- {name: Tailwind CSS, category: ui, rules: [{where: script, pattern: '(?i)cdn\.tailwindcss\.com|tailwind(?:css)?[/@](?P<version>[\d.]+)'}]}
+- {name: WordPress, category: cms, rules: [{where: meta:generator, pattern: '(?i)wordpress ?(?P<version>[\d.]+)?'}, {where: html, pattern: '/wp-content/|/wp-includes/'}]}
+- {name: Drupal, category: cms, rules: [{where: meta:generator, pattern: '(?i)drupal ?(?P<version>\d+)?'}, {where: header:x-generator, pattern: '(?i)drupal ?(?P<version>\d+)?'}]}
+- {name: Joomla, category: cms, rules: [{where: meta:generator, pattern: '(?i)joomla'}]}
+- {name: Ghost, category: cms, rules: [{where: meta:generator, pattern: '(?i)ghost ?(?P<version>[\d.]+)?'}]}
+- {name: Shopify, category: ecommerce, rules: [{where: "header:x-shopify-stage", pattern: '.'}, {where: script, pattern: 'cdn\.shopify\.com'}]}
+- {name: WooCommerce, category: ecommerce, rules: [{where: html, pattern: 'woocommerce'}]}
+- {name: Magento, category: ecommerce, rules: [{where: html, pattern: 'Mage\.Cookies|/static/version\d+/frontend/'}]}
+- {name: Squarespace, category: site-builder, rules: [{where: html, pattern: 'static1\.squarespace\.com|Squarespace'}]}
+- {name: Wix, category: ai-builder, rules: [{where: meta:generator, pattern: '(?i)wix\.com'}, {where: "header:x-wix-request-id", pattern: '.'}]}
+- {name: Webflow, category: site-builder, rules: [{where: meta:generator, pattern: '(?i)webflow'}, {where: html, pattern: 'data-wf-page'}]}
+- {name: Framer, category: ai-builder, rules: [{where: meta:generator, pattern: '(?i)framer'}, {where: script, pattern: 'framerusercontent\.com|framer\.com/m/'}]}
+- {name: Lovable, category: ai-builder, rules: [{where: html, pattern: '(?i)lovable\.(?:dev|app)|gptengineer\.js'}, {where: url, pattern: '\.lovable\.app'}]}
+- {name: v0, category: ai-builder, rules: [{where: html, pattern: '(?i)v0\.dev|made with v0'}, {where: url, pattern: '\.v0\.dev'}]}
+- {name: Bolt.new, category: ai-builder, rules: [{where: html, pattern: '(?i)bolt\.new'}, {where: url, pattern: '\.bolt\.host'}]}
+- {name: Durable, category: ai-builder, rules: [{where: html, pattern: '(?i)durable\.co'}]}
+- {name: Hugo, category: static-site, rules: [{where: meta:generator, pattern: '(?i)hugo ?(?P<version>[\d.]+)?'}]}
+- {name: Jekyll, category: static-site, rules: [{where: meta:generator, pattern: '(?i)jekyll ?v?(?P<version>[\d.]+)?'}]}
+- {name: Docusaurus, category: static-site, rules: [{where: meta:generator, pattern: '(?i)docusaurus ?v?(?P<version>[\d.]+)?'}]}
+- {name: Google Tag Manager, category: analytics, rules: [{where: script, pattern: 'googletagmanager\.com/gtm\.js'}]}
+- {name: Google Analytics, category: analytics, rules: [{where: script, pattern: 'googletagmanager\.com/gtag/js|google-analytics\.com/(?:ga|analytics)\.js'}]}
+- {name: Plausible, category: analytics, rules: [{where: script, pattern: 'plausible\.io/js'}]}
+- {name: Hotjar, category: analytics, rules: [{where: script, pattern: 'static\.hotjar\.com'}]}
+- {name: Segment, category: analytics, rules: [{where: script, pattern: 'cdn\.segment\.com'}]}
+- {name: Meta Pixel, category: analytics, rules: [{where: script, pattern: 'connect\.facebook\.net/.*/fbevents\.js'}]}
+- {name: Microsoft Clarity, category: analytics, rules: [{where: script, pattern: 'clarity\.ms/tag'}]}
+- {name: HubSpot, category: marketing, rules: [{where: script, pattern: 'js\.hs-scripts\.com|js\.hsforms\.net'}]}
+- {name: Intercom, category: support, rules: [{where: script, pattern: 'widget\.intercom\.io'}]}
+- {name: Stripe, category: payments, rules: [{where: script, pattern: 'js\.stripe\.com'}]}
+- {name: PayPal, category: payments, rules: [{where: script, pattern: 'paypal\.com/sdk/js|paypalobjects\.com'}]}
+- {name: Google reCAPTCHA, category: security, rules: [{where: script, pattern: 'google\.com/recaptcha'}]}
+- {name: hCaptcha, category: security, rules: [{where: script, pattern: 'hcaptcha\.com'}]}
+- {name: Cloudflare Turnstile, category: security, rules: [{where: script, pattern: 'challenges\.cloudflare\.com/turnstile'}]}
+- {name: Google Fonts, category: ui, rules: [{where: script, pattern: 'fonts\.googleapis\.com'}]}
+- {name: jsDelivr, category: cdn, rules: [{where: script, pattern: 'cdn\.jsdelivr\.net'}]}
+- {name: cdnjs, category: cdn, rules: [{where: script, pattern: 'cdnjs\.cloudflare\.com'}]}
+- {name: unpkg, category: cdn, rules: [{where: script, pattern: 'unpkg\.com'}]}

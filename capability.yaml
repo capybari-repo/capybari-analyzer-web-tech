@@ -1,0 +1,31 @@
+id: web-tech
+name: Website Technology Detector
+version: 0.1.0
+category: discovery
+summary: Identifies the servers, frameworks, CMS, front-end libraries, analytics, CDNs, hosting and AI site builders behind a website from headers, cookies, markup and scripts; flags end-of-life and vulnerable front-end libraries and stale-site signals.
+stability: stable
+core_api: v0
+targets: [website]
+requires: [web-snapshot]
+provides: [technologies]
+findings: [end-of-life, vulnerable-library, maintenance-signal]
+scores: [evolution]
+cost: low
+execution:
+  local: false
+  network: optional
+  ai: none
+  network_hosts: [api.osv.dev]
+privacy: Uses the page already fetched by the Website Snapshot. When online, sends the names and versions of detected front-end libraries (never page content) to api.osv.dev to look up known vulnerabilities.
+methodology: https://github.com/capybari/capybari-analyzer-web-tech/blob/main/docs/methodology.md
+follow_ups:
+  - capability: web-security
+    reason: Outdated or vulnerable components were found; check the site's security configuration too.
+    when:
+      finding_categories: [end-of-life, vulnerable-library]
+  - capability: web-security
+    reason: Check HTTPS, security headers and cookies for this stack.
+  - capability: ai-signals
+    reason: An AI site builder was detected; check the content for unreviewed AI-generation indicators.
+    when:
+      technologies: [Lovable, v0, Bolt.new, Framer, Wix, Durable, 10Web, Hostinger AI Website Builder]
