@@ -17,7 +17,7 @@ execution:
   ai: none
   network_hosts: [api.osv.dev]
 privacy: Uses the page already fetched by the Website Snapshot. When online, sends the names and versions of detected front-end libraries (never page content) to api.osv.dev to look up known vulnerabilities.
-methodology: https://github.com/capybari/capybari-analyzer-web-tech/blob/main/docs/methodology.md
+methodology: https://github.com/capybari-repo/capybari-analyzer-web-tech/blob/main/docs/methodology.md
 follow_ups:
   - capability: web-security
     reason: Outdated or vulnerable components were found; check the site's security configuration too.
