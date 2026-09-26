@@ -5,6 +5,7 @@
 - {name: Apache HTTP Server, category: server, rules: [{where: "header:server", pattern: '(?i)^apache(?:/(?P<version>[\d.]+))?'}]}
 - {name: Microsoft IIS, category: server, rules: [{where: "header:server", pattern: '(?i)microsoft-iis(?:/(?P<version>[\d.]+))?'}]}
 - {name: LiteSpeed, category: server, rules: [{where: "header:server", pattern: '(?i)litespeed'}]}
+- {name: Google Web Server, category: server, rules: [{where: "header:server", pattern: '^gws$'}]}
 - {name: Caddy, category: server, rules: [{where: "header:server", pattern: '(?i)^caddy'}]}
 - {name: Cloudflare, category: cdn, rules: [{where: "header:server", pattern: '(?i)^cloudflare'}, {where: "header:cf-ray", pattern: '.'}]}
 - {name: Amazon CloudFront, category: cdn, rules: [{where: "header:x-amz-cf-id", pattern: '.'}, {where: "header:via", pattern: '(?i)cloudfront'}]}
